@@ -11,6 +11,7 @@ class ViewController: UIViewController {
     var number = 0.0
     var number2 = 0.0
     var result = 0.0
+    var operation = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,31 +20,93 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var lblResult: UILabel!
     
+    @IBOutlet weak var lblPastCalculations: UILabel!
+    
     @IBAction func btnClear(_ sender: Any) {
         lblResult.text = ""
+        lblPastCalculations.text = ""
     }
     
     @IBAction func btnSign(_ sender: Any) {
+        if lblResult.text == "0" || lblResult.text == "" {
+            lblResult.text = lblResult.text
+        }
+        else if !lblResult.text!.contains("-") {
+            lblResult.text!.insert( "-", at: lblResult.text!.startIndex)
+        }
+        else {
+            lblResult.text?.remove(at: lblResult.text!.startIndex)
+        }
         
     }
     @IBAction func btnPercent(_ sender: Any) {
         
     }
     @IBAction func btnDivide(_ sender: Any) {
-        
+        operation = "÷"
+        operationButton()
     }
+    
     @IBAction func btnMultiply(_ sender: Any) {
+        operation = "*"
+        operationButton()
     }
     
     @IBAction func btnSubtract(_ sender: Any) {
-        
+        operation = "-"
+      operationButton()
     }
     @IBAction func btnAdd(_ sender: Any) {
-     
+        operation = "+"
+       operationButton()
+    }
+    
+    func operationButton() {
+        number = Double(lblResult.text!)!
+        lblPastCalculations.text!.append(lblResult.text!)
+        lblPastCalculations.text!.append(operation)
+        lblResult.text = ""
     }
     
     @IBAction func btnEqual(_ sender: Any) {
-        number2 = Double(lblResult.text!)!
+        if lblResult.text != "" {
+            
+            number2 = Double(lblResult.text!)!
+            
+            switch operation {
+            case "÷":
+                result = Double(number / number2)
+                textAppend()
+                
+            case "*":
+                result = Double(number * number2)
+                textAppend()
+            case "+":
+                result = Double(number + number2)
+                textAppend()
+            case "-":
+                result = Double(number - number2)
+                textAppend()
+                
+            default:
+                lblResult.text = "0"
+            }
+            
+            func textAppend(){
+                lblPastCalculations.text!.append(lblResult.text!)
+                lblPastCalculations.text!.append("=")
+                lblResult.text = result.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", result) : String(result)
+                lblPastCalculations.text!.append(lblResult.text! + ",")
+                
+            }
+            
+           
+        }
+    }
+   
+    
+    @IBAction func btnMemory(_ sender: Any) {
+        
     }
     
     @IBAction func btnDot(_ sender: Any) {
@@ -69,7 +132,6 @@ class ViewController: UIViewController {
     @IBAction func btnOne(_ sender: Any){
         if lblResult.text == "0" {
             lblResult.text = "1"
-            number = Double(lblResult.text!)!
         }
         else {
             lblResult.text = lblResult.text?.appending("1")
@@ -78,7 +140,7 @@ class ViewController: UIViewController {
     @IBAction func btnTwo(_ sender: Any){
         if lblResult.text == "0" {
             lblResult.text = "2"
-            number = Double(lblResult.text!)!
+         
         }
         else {
             lblResult.text = lblResult.text?.appending("2")
@@ -87,7 +149,7 @@ class ViewController: UIViewController {
     @IBAction func btnThree(_ sender: Any) {
         if lblResult.text == "0" {
             lblResult.text = "3"
-            number = Double(lblResult.text!)!
+         
         }
         else {
             lblResult.text = lblResult.text?.appending("3")
@@ -96,7 +158,7 @@ class ViewController: UIViewController {
     @IBAction func btnFour(_ sender: Any) {
         if lblResult.text == "0" {
             lblResult.text = "4"
-            number = Double(lblResult.text!)!
+         
         }
         else {
             lblResult.text = lblResult.text?.appending("4")
@@ -105,7 +167,7 @@ class ViewController: UIViewController {
     @IBAction func btnFive(_ sender: Any) {
         if lblResult.text == "0" {
             lblResult.text = "5"
-            number = Double(lblResult.text!)!
+          
         }
         else {
             lblResult.text = lblResult.text?.appending("5")
@@ -114,7 +176,6 @@ class ViewController: UIViewController {
     @IBAction func btnSix(_ sender: Any) {
         if lblResult.text == "0" {
             lblResult.text = "6"
-            number = Double(lblResult.text!)!
         }
         else {
             lblResult.text = lblResult.text?.appending("6")
@@ -123,7 +184,6 @@ class ViewController: UIViewController {
     @IBAction func btnSeven(_ sender: Any) {
         if lblResult.text == "0" {
             lblResult.text = "7"
-            number = Double(lblResult.text!)!
         }
         else {
             lblResult.text = lblResult.text?.appending("7")
@@ -132,7 +192,6 @@ class ViewController: UIViewController {
     @IBAction func btnEight(_ sender: Any) {
         if lblResult.text == "0" {
             lblResult.text = "8"
-            number = Double(lblResult.text!)!
         }
         else {
             lblResult.text = lblResult.text?.appending("8")
@@ -141,14 +200,11 @@ class ViewController: UIViewController {
     @IBAction func btnNine(_ sender: Any) {
         if lblResult.text == "0" {
             lblResult.text = "9"
-            number = Double(lblResult.text!)!
         }
         else {
             lblResult.text = lblResult.text?.appending("9")
         }
     }
-    
-    
     
 }
 
