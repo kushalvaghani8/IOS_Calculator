@@ -12,7 +12,6 @@ class ViewController: UIViewController {
     var number2 = 0.0
     var result = 0.0
     var operation = ""
-    var isShowing = false
   
     
     override func viewDidLoad() {
@@ -31,7 +30,6 @@ class ViewController: UIViewController {
         number2 = 0.0
         result = 0.0
         operation = ""
-        isShowing = false
     }
     
     @IBAction func btnSign(_ sender: Any) { //adding ± if not already added or turning number to positive if negative
@@ -70,71 +68,6 @@ class ViewController: UIViewController {
         operationButton()
     }
     
-    @IBAction func btnBackSpace(_ sender: Any) {
-        lblResult.text?.popLast()
-    }
-    
-    @IBAction func btnSquareRoot(_ sender: Any) {
-        if lblResult.text == "" || lblResult.text == "0" {
-            lblPastCalculations.text = "Please enter a number"
-        }
-        else {
-        operation = "√"
-        number = Double(lblResult.text!)!
-        result = sqrt(number)
-        lblResult.text = String(result)
-        specialButton()
-    }
-    }
-    
-    @IBAction func btnxSquare(_ sender: Any) {
-        if lblResult.text == "" || lblResult.text == "0" {
-            lblPastCalculations.text = "Please enter a number"
-        }
-        else {
-        operation = "x^2"
-        number = Double(lblResult.text!)!
-        result =  (pow(number,2))
-        lblResult.text = String(result)
-        specialButton()
-        }
-    }
-    
-    @IBAction func btnxCube(_ sender: Any) {
-        if lblResult.text == "" || lblResult.text == "0" {
-            lblPastCalculations.text = "Please enter a number"
-        }
-        else {
-        operation = "x^3"
-        number = Double(lblResult.text!)!
-        result =  (pow(number,3))
-        lblResult.text = String(result)
-        specialButton()
-        }
-    }
-    
-    func specialButton(){
-            lblPastCalculations.text!.append("\(operation) ")
-            lblPastCalculations.text!.append(String(number))
-            lblPastCalculations.text!.append(" = ")
-            lblPastCalculations.text!.append(String(result))
-            excludeZero()
-    }
-    
-    func excludeZero(){ //function to exclude zero at the end
-        lblResult.text = result.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", result) : String(result)
-    }
-    
-    
-    
-    func operationButton() { // function for all the repetative code to print
-        if lblResult.text != "0" || lblResult.text != "" {
-            number = Double(lblResult.text!)!
-            lblPastCalculations.text!.append(lblResult.text!)
-            lblPastCalculations.text!.append(operation)
-            lblResult.text = ""
-        }
-    }
     
     @IBAction func btnEqual(_ sender: Any) { // checking which operation to perform with a switch statement.
         if lblResult.text != "" {
@@ -178,6 +111,75 @@ class ViewController: UIViewController {
         
         
     }
+    
+    
+    @IBAction func btnBackSpace(_ sender: Any) { //removes the last character
+        lblResult.text?.popLast()
+    }
+    
+    @IBAction func btnSquareRoot(_ sender: Any) { //checks if its not zero if not gets squareroot of the number
+        if lblResult.text == "" || lblResult.text == "0" {
+            lblPastCalculations.text = "Please enter a number"
+        }
+        else {
+        operation = "√"
+        number = Double(lblResult.text!)!
+        result = sqrt(number)
+        lblResult.text = String(result)
+        specialButton()
+    }
+    }
+    
+    @IBAction func btnxSquare(_ sender: Any) { //multiplies the number with itself)
+        if lblResult.text == "" || lblResult.text == "0" {
+            lblPastCalculations.text = "Please enter a number"
+        }
+        else {
+        operation = "x^2"
+        number = Double(lblResult.text!)!
+            result =  (pow(number,2)) // formula for square
+        lblResult.text = String(result)
+        specialButton()
+        }
+    }
+    
+    @IBAction func btnxCube(_ sender: Any) { //multiplies itself three times
+        if lblResult.text == "" || lblResult.text == "0" {
+            lblPastCalculations.text = "Please enter a number"
+        }
+        else {
+        operation = "x^3"
+        number = Double(lblResult.text!)!
+        result =  (pow(number,3)) //formula for cube calculation
+        lblResult.text = String(result)
+        specialButton()
+        }
+    }
+    
+    func specialButton(){ //repetative print statments for spcial buttons (√,x^2,x^3)
+            lblPastCalculations.text!.append("\(operation) ")
+            lblPastCalculations.text!.append(String(number))
+            lblPastCalculations.text!.append(" = ")
+            lblPastCalculations.text!.append(String(result))
+            excludeZero()
+    }
+    
+    func excludeZero(){ //function to exclude zero at the end
+        lblResult.text = result.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", result) : String(result)
+    }
+    
+    
+    
+    func operationButton() { // function for all the repetative code to print
+        if lblResult.text != "0" || lblResult.text != "" {
+            number = Double(lblResult.text!)!
+            lblPastCalculations.text!.append(lblResult.text!)
+            lblPastCalculations.text!.append(operation)
+            lblResult.text = ""
+        }
+    }
+    
+   
     
     @IBAction func btnDot(_ sender: Any) { //adding "." only once
         if lblResult.text!.isEmpty {
